@@ -203,57 +203,28 @@ public class RedBlackTree {
             }
 
         }
-
     }
 
     private void removeFixup(Node x) {
 
         while (root != x && isBlack(x)) {
-
-            if (x == x.parent.left) {
-                Node w = x.parent.right;
-
-                if (isRed(w)) {
-                    w.color = BLACK;
-                    x.parent.color = RED;
-                    RR_rotate(w.parent);
-                    w = x.parent.right;
-                }
-                if (isBlack(w.left) && isBlack(w.right)) {
-                    w.color = RED;
-                    x = x.parent;
-                } else {
-
-                    if (isBlack(w.right)) {
-
-                        w.left.color = BLACK;
-                        w.color = RED;
-                        LL_rotate(w);
-                        w = x.parent.right;
-                    }
-
-                    w.color = BLACK;
-                    w.right.color = BLACK;
-                    RR_rotate(x.parent);
-                    break;
-                }
-            } else if (x == x.parent.right) {
-
+            if (x.parent.right == x) {
                 Node w = x.parent.left;
 
                 if (isRed(w)) {
-                    w.color = BLACK;
                     x.parent.color = RED;
+                    w.color = BLACK;
                     LL_rotate(x.parent);
                     w = x.parent.left;
                 }
+
                 if (isBlack(w.left) && isBlack(w.right)) {
                     w.color = RED;
                     x = x.parent;
                 } else {
 
                     if (isBlack(w.left)) {
-                        w.left.color = BLACK;
+                        w.right.color = BLACK;
                         w.color = RED;
                         RR_rotate(w);
                         w = x.parent.left;
@@ -264,11 +235,44 @@ public class RedBlackTree {
                     w.left.color = BLACK;
                     LL_rotate(x.parent);
                     break;
+
+                }
+
+            } else if (x.parent.left == x) {
+                Node w = x.parent.right;
+
+                if (isRed(w)) {
+                    x.parent.color = RED;
+                    w.color = BLACK;
+                    RR_rotate(x.parent);
+                    w = x.parent.right;
+                }
+
+                if (isBlack(w.left) && isBlack(w.right)) {
+
+                    w.color = RED;
+                    x = x.parent;
+
+                } else {
+
+                    if (isBlack(w.right)) {
+
+                        w.left.color = BLACK;
+                        w.color = RED;
+                        LL_rotate(w);
+                        w = x.parent.right;
+                    }
+
+                    w.color = x.parent.color;
+                    x.parent.color = BLACK;
+                    w.right.color = BLACK;
+                    RR_rotate(x.parent);
+                    break;
                 }
 
             }
-
         }
+
         x.color = BLACK;
 
     }
