@@ -1,6 +1,36 @@
-package heap;
 
 import java.util.Arrays;
+
+/**
+ * Heap
+ * 우선순위를 형제가 아닌 부모노드와 비교하여, 배치하는 트리형태의 자료구조
+ * 보통 구현은 트리가 아닌 배열 형태로 구현한다.
+ * 
+ * 노드 추가
+ * 
+ * 1.마지막 리프노드가 되는 자리에 배치한다.
+ * 2.배치된 자리에서 부모노드와 우선순위를 비교하여 바꾼다.
+ * 3. 우선순위가 큰 부모노드를 만날때까지 2를 반복한다.
+ * 
+ * 
+ * 노드 삭제
+ * 
+ * 1. 루트노드를 삭제하여 반환하고, 마지막 리프노드를 루트자리에 배치한다.
+ * 2. 루트노드에 배치된 리프노드를 자식 노드들과 비교하여 우선순위가 더 높은 자식노드와 배치를 바꾼다.
+ * 3. 우선순위가 작은 부모노드를 만날때까지 2를 반복한다.
+ * 
+ * 필수 기능
+ * 1. 부모노드와 비교
+ * 2. 자식노드와 비교
+ * 4. 노드들의 배치를 바꾸기
+ * 5. 부모노드 인덱스 추출
+ * 6. 오른쪽 자식노드 인덱스 추출
+ * 7. 왼쪽 자식노드 인덱스 추출
+ * 8. 오른쪽 자식노드가 존재하는지 확인
+ * 9. 왼쪽 자식노드가 존재하는지 확인
+ * 10. Peek()
+ * 11. 힙이 비어있는지 확인
+ */
 
 public class MaxHeap {
 
@@ -134,6 +164,24 @@ public class MaxHeap {
 
     public void printTree() {
         printHelper(0, "", true);
+    }
+
+    public static void main(String[] args) {
+
+        // TODO : 최대 Heap
+        MaxHeap maxHeap = new MaxHeap();
+        maxHeap.add(4);
+        maxHeap.add(1);
+        maxHeap.add(5);
+        maxHeap.add(2);
+        maxHeap.add(3);
+        maxHeap.add(6);
+        System.out.println("--Max Heap--");
+        maxHeap.printTree();
+        while (!(maxHeap.isEmpty())) {
+            System.out.println(maxHeap.remove());
+        }
+
     }
 
 }
