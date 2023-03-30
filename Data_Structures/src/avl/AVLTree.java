@@ -1,12 +1,11 @@
-class Node{
+class Node {
     int key;
     Node left;
     Node right;
     int height = 0;
 }
 
-
-public class AVLTree{
+public class AVLTree {
 
     Node root;
 
@@ -17,21 +16,21 @@ public class AVLTree{
         Node newNode = new Node();
         newNode.key = key;
 
-        if(null == root) {
+        if (null == root) {
             root = newNode;
-        }else {
+        } else {
             root = insertNode(root, newNode);
         }
 
     }
 
-    private Node insertNode(Node node, Node newNode){
+    private Node insertNode(Node node, Node newNode) {
 
-        if(null == node){
+        if (null == node) {
             return newNode;
-        }else if(node.key > newNode.key){
+        } else if (node.key > newNode.key) {
             node.left = insertNode(node.left, newNode);
-        }else {
+        } else {
             node.right = insertNode(node.right, newNode);
         }
 
@@ -47,28 +46,28 @@ public class AVLTree{
 
     private Node removeNode(Node node, int key) {
 
-        if(null == node) {
+        if (null == node) {
             throw new RuntimeException("삭제하고자 하는 노드가 없습니다.");
-        }else if(node.key > key) {
+        } else if (node.key > key) {
             node.left = removeNode(node.left, key);
-        }else if(node.key < key) {
+        } else if (node.key < key) {
             node.right = removeNode(node.right, key);
-        }else {
+        } else {
 
-            if(null != node.left){
+            if (null != node.left) {
 
                 Node predecessor = getLargestNode(node.left);
                 int removeKey = node.key;
                 node.key = predecessor.key;
                 predecessor.key = removeKey;
                 node.left = removeNode(node.left, key);
-            }else if(null != node.right) {
+            } else if (null != node.right) {
                 Node successor = getSmallestNode(node.right);
                 int removeKey = node.key;
                 node.key = successor.key;
                 successor.key = removeKey;
                 node.right = removeNode(node.right, key);
-            }else{
+            } else {
                 return null;
             }
         }
@@ -77,14 +76,14 @@ public class AVLTree{
     }
 
     private Node getLargestNode(Node node) {
-        if(null == node.right) {
+        if (null == node.right) {
             return node;
         }
         return getLargestNode(node.right);
     }
 
     private Node getSmallestNode(Node node) {
-        if(null == node.left) {
+        if (null == node.left) {
             return node;
         }
         return getSmallestNode(node.left);
@@ -96,15 +95,15 @@ public class AVLTree{
         return searchNode(root, key).key;
     }
 
-    private Node searchNode(Node node, int key){
+    private Node searchNode(Node node, int key) {
 
         Node searchedNode = node;
 
-        if(null == node){
+        if (null == node) {
             throw new RuntimeException("찾고자하는 노드가 존재하지 않습니다.");
-        }else if(node.key > key) {
+        } else if (node.key > key) {
             searchedNode = searchNode(searchedNode.left, key);
-        }else if(node.key < key) {
+        } else if (node.key < key) {
             searchedNode = searchNode(searchedNode.right, key);
         }
 
@@ -118,20 +117,20 @@ public class AVLTree{
 
         int nodeBalance = getNodeBalance(node);
 
-        if(Math.abs(nodeBalance)>=2) {
+        if (Math.abs(nodeBalance) >= 2) {
 
-            if(nodeBalance>1 && 0<=getNodeBalance(node.left)) {
+            if (nodeBalance > 1 && 0 <= getNodeBalance(node.left)) {
                 node = LL_rotate(node);
-            }else if(nodeBalance>1 && -1==getNodeBalance(node.left)) {
+            } else if (nodeBalance > 1 && -1 == getNodeBalance(node.left)) {
                 node.left = RR_rotate(node.left);
                 node = LL_rotate(node);
-            }else if(nodeBalance<-1 && 0>=getNodeBalance(node.right)) {
+            } else if (nodeBalance < -1 && 0 >= getNodeBalance(node.right)) {
                 node = RR_rotate(node);
-            }else if(nodeBalance<-1 && 1==getNodeBalance(node.right)) {
+            } else if (nodeBalance < -1 && 1 == getNodeBalance(node.right)) {
                 node.right = LL_rotate(node.right);
                 node = RR_rotate(node);
             }
-            
+
         }
         return node;
 
@@ -176,16 +175,15 @@ public class AVLTree{
 
         return leftChildHeight - rightChildHeight;
     }
-    
 
     // 출력
 
-    public void pirntTree(){
+    public void pirntTree() {
         printHelper(root, "", true);
         System.out.println("----------------------------------------------------------");
         System.out.println();
     }
-    
+
     private void printHelper(Node x, String indent, boolean last) {
         if (x != null) {
             System.out.print(indent);
@@ -214,19 +212,17 @@ public class AVLTree{
 
     private void inorderTraversal(Node node) {
 
-        if(null==node){
+        if (null == node) {
             return;
         }
 
         inorderTraversal(node.left);
-        System.out.print(" "+node.key);
+        System.out.print(" " + node.key);
         inorderTraversal(node.right);
 
     }
 
-
     public static void main(String[] args) {
-
 
         AVLTree avlTree = new AVLTree();
         avlTree.add(5);
