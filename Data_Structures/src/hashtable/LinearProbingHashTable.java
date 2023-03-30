@@ -1,5 +1,18 @@
 package hashtable;
 
+class Entry {
+    Object key;
+    Object value;
+    // remove 메서드의 내용을 살펴본다.
+    boolean isDeleted = false;
+
+    Entry(Object key, Object value, boolean isDeleted) {
+        this.key = key;
+        this.value = value;
+        this.isDeleted = isDeleted;
+    }
+}
+
 public class LinearProbingHashTable {
 
     // 버킷으로 할당할 수 있는 최대 크기
@@ -183,6 +196,28 @@ public class LinearProbingHashTable {
             }
         }
 
+    }
+
+    public void printHashTable() {
+        System.out.println("-----Linear----");
+        for (int i = 0; i < bucket.length; i++) {
+            if (null != bucket[i] && bucket[i].isDeleted) {
+                System.out.printf("| %d | %s\n", i, "null(dummy)");
+            } else if (null != bucket[i]) {
+                System.out.printf("| %d | %s\n", i, printNode(bucket[i]));
+            } else {
+                System.out.printf("| %d | %s\n", i, "null");
+            }
+        }
+        System.out.println("---------------");
+    }
+
+    private String printNode(Entry entry) {
+        StringBuilder builder = new StringBuilder();
+        int hash = secondaryHash(entry.key);
+        builder.append("(").append(entry.key).append(",").append(entry.value)
+                .append(",").append(hash).append(")");
+        return builder.toString();
     }
 
 }
