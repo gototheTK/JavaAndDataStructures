@@ -54,10 +54,8 @@ public class HashTable {
         return hash(key);
     }
 
-    private void put(Object key, Object value) {
-
+    public void put(Object key, Object value) {
         putValue(key, value);
-
     }
 
     private void putValue(Object key, Object value) {
@@ -87,6 +85,50 @@ public class HashTable {
             list.add(new Entry(key, value));
         }
         resizeBucket();
+    }
+
+    public Object get(Object key) {
+
+        int index = probing(key);
+
+        if (null == bucket[index]) {
+            return null;
+        }
+
+        LinkedList<Entry> list = bucket[index];
+
+        for (Entry entry : list) {
+
+            if (entry.key.equals(key)) {
+                return entry;
+            }
+        }
+        return null;
+    }
+
+    public void remove(int key) {
+
+        int index = probing(key);
+        if (null != bucket[index]) {
+
+            LinkedList<Entry> list = bucket[index];
+
+            for (Entry entry : list) {
+
+                if (entry.key.equals(key)) {
+                    list.remove(entry);
+                    break;
+                }
+
+            }
+
+            if (list.isEmpty()) {
+                bucket[index] = null;
+                --bucketSize;
+            }
+
+        }
+
     }
 
     @SuppressWarnings("unchecked")
