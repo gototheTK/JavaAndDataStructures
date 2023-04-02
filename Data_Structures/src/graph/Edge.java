@@ -1,4 +1,4 @@
-package list;
+package graph;
 
 public class Edge {
     int u; // 출발지
