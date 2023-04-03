@@ -34,6 +34,26 @@ public class BTree {
     }
 
     private Node insertKey(Node x, int key) {
+        int keyIndex = findKeyIndex(x, key);
+        if (keyIndex < x.keys.size() && key == x.keys.get(keyIndex)) {
+            throw new RuntimeException("동일한 키가 존재 합니다.");
+        }
+
+        if (isLeafNode(x)) {
+            x.keys.add(key);
+        } else {
+
+            Node y = insertKey(x.nodes.get(keyIndex), key);
+            if (t * 2 == y.keys.size()) {
+                x = splitNode(x, y, keyIndex);
+            }
+        }
+
+        if (root == x && t * 2 == x.keys.size()) {
+            Node newRoot = new Node(t);
+            x = splitNode(newRoot, x, 0);
+        }
+
         return x;
     }
 
@@ -52,25 +72,24 @@ public class BTree {
         Node z = new Node(t);
         int medianKey = y.keys.get(t);
         int yKeySize = y.keys.size();
-        int yChildrenSize = y.nodes.size();
+        int yNodeSize = y.nodes.size();
 
         z.keys.addAll(y.keys.subList(t + 1, yKeySize));
         y.keys.subList(t, yKeySize).clear();
 
         if (!y.nodes.isEmpty()) {
-            z.nodes.addAll(y.nodes.subList(t + 1, yChildrenSize));
-            y.nodes.subList(t + 1, yChildrenSize).clear();
+            z.nodes.addAll(y.nodes.subList(t + 1, yNodeSize));
+            y.nodes.subList(t + 1, yNodeSize).clear();
         }
 
         if (root == y) {
             x.keys.add(medianKey);
             x.nodes.add(y);
-            x.nodes.add(x);
+            x.nodes.add(z);
         } else {
             x.keys.add(yNodeIndex, medianKey);
-            x.nodes.add(yNodeIndex + 1, z);
+            x.nodes.add(z);
         }
-
         return x;
     }
 
