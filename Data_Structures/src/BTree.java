@@ -1,3 +1,5 @@
+import java.time.ZoneId;
+import java.time.zone.ZoneOffsetTransition;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,6 +105,56 @@ public class BTree {
             i++;
         }
         return i;
+    }
+
+    public void remove(int key) {
+        removeKey(root, key);
+    }
+
+    private void removeKey(Node x, int key) {
+        int keyIndex = findKeyIndex(x, key);
+        if (keyIndex < x.keys.size() && x.keys.get(keyIndex) == key) {
+
+            if (isLeafNode(x)) {
+                case1(x, keyIndex);
+            }
+
+        } else {
+
+        }
+
+    }
+
+    private void case1(Node x, int keyIndex) {
+        x.keys.remove(keyIndex);
+    }
+
+    private void case2(Node x, int keyIndex) {
+        int key = x.keys.get(keyIndex);
+        Node y = x.nodes.get(keyIndex);
+        Node z = x.nodes.get(keyIndex + 1);
+
+        if (y.keys.size() >= t) {
+            int precedingKey = getLargestKey(y);
+            x.keys.set(keyIndex, precedingKey);
+            removeKey(y, precedingKey);
+        }else(z.keys.size() >= t) {
+            int successorKey = getSmallestKey(z);
+            x.keys.set(keyIndex, successorKey);
+            removeKey(z, successorKey);
+        }else {
+            Node newNode = merge(x, keyIndex);
+            removeKey(newNode, key);
+        }
+
+    }
+
+    private int getLargestKey(Node node) {
+        return 0;
+    }
+
+    private int getSmallestKey(Node node) {
+        return 0;
     }
 
 }
