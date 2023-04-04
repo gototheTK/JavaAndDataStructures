@@ -136,17 +136,23 @@ public class BTree {
 
         if (y.keys.size() >= t) {
             int precedingKey = getLargestKey(y);
+
             x.keys.set(keyIndex, precedingKey);
+
             removeKey(y, precedingKey);
-        }else(z.keys.size() >= t) {
+        } else if (z.keys.size() >= t) {
             int successorKey = getSmallestKey(z);
             x.keys.set(keyIndex, successorKey);
             removeKey(z, successorKey);
-        }else {
+        } else {
             Node newNode = merge(x, keyIndex);
             removeKey(newNode, key);
         }
 
+    }
+
+    private Node merge(Node x, int keyIndex) {
+        return null;
     }
 
     private int getLargestKey(Node node) {
