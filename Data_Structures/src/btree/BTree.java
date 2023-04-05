@@ -133,8 +133,22 @@ public class BTree {
     }
 
     private void case2(Node x, int keyIndex) {
-        int key
+        int key = x.keys.get(keyIndex);
+        Node y = x.nodes.get(keyIndex);
+        Node z = x.nodes.get(keyIndex + 1);
 
+        if (y.nodes.size() >= t) {
+            int removeKey = getLargestKey(y);
+            x.keys.set(keyIndex, removeKey);
+            removeKey(y, removeKey);
+        } else if (z.nodes.size() >= t) {
+            int removeKey = getSmallestKey(z);
+            x.keys.set(keyIndex, removeKey);
+            removeKey(z, removeKey);
+        } else {
+            Node newNode = merge(x, keyIndex);
+            removeKey(newNode, key);
+        }
     }
 
     private void case3(Node x, int key, int keyIndex) {
