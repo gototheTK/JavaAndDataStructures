@@ -132,27 +132,96 @@ public class BTree {
     private void case2(Node x, int keyIndex) {
         int key = x.keys.get(keyIndex);
         Node y = x.nodes.get(keyIndex);
-        Node z = x.nodes.get(keyIndex + 1);
+        Node z = y.nodes.get(keyIndex);
 
         if (y.keys.size() >= t) {
             int precedingKey = getLargestKey(y);
-
             x.keys.set(keyIndex, precedingKey);
-
             removeKey(y, precedingKey);
         } else if (z.keys.size() >= t) {
             int successorKey = getSmallestKey(z);
             x.keys.set(keyIndex, successorKey);
             removeKey(z, successorKey);
         } else {
-            Node newNode = merge(x, keyIndex);
+            Node newNode = new Node(t);
+            merge(newNode, keyIndex);
             removeKey(newNode, key);
         }
 
     }
 
+    private void case3(Node x, int key, int keyIndex) {
+
+        boolean isExistLeftChild = 0 != keyIndex;
+        boolean isExistRightChild = keyIndex != x.nodes.size() - 1;
+
+        if (isExistLeftChild && x.nodes.get(keyIndex - 1).keys.size() >= t) {
+
+            Node y = x.nodes.get(keyIndex - 1);
+            Node z = x.nodes.get(keyIndex);
+            int parentKey = x.keys.get(keyIndex - 1);
+            int yLastKey = y.keys.get(y.keys.size() - 1);
+
+            x.keys.set(keyIndex - 1, yLastKey);
+            y.keys.remove(y.keys.size() - 1);
+            z.keys.add(0, parentKey);
+
+            if (!isLeafNode(y)) {
+                Node yLastChildNode = y.nodes.get(y.nodes.size() - 1);
+
+                z.nodes.add(0, yLastChildNode);
+                y.nodes.remove(yLastChildNode);
+            }
+
+            removeKey(z, key);
+
+        } else if (isExistRightChild && x.nodes.get(keyIndex + 1).keys.size() >= t) {
+
+            Node y = x.nodes.get(keyIndex);
+            Node z = x.nodes.get(keyIndex + 1);
+            int parentKey = x.keys.get(keyIndex);
+            int zFirstKey = z.keys.get(0);
+
+            x.keys.set(keyIndex, zFirstKey);
+            z.keys.remove(0);
+            y.keys.add(parentKey);
+
+            if (!isLeafNode(z)) {
+                Node zFirstChildNode = z.nodes.get(0);
+                y.nodes.add(zFirstChildNode);
+                z.nodes.remove(zFirstChildNode);
+            }
+
+            removeKey(y, key);
+
+        } else {
+
+            Node newNode = merge(x, keyIndex);
+            removeKey(newNode, key);
+
+        }
+
+    }
+
     private Node merge(Node x, int keyIndex) {
-        return null;
+
+        Node y = x.nodes.get(keyIndex);
+        Node z = x.nodes.get(keyIndex + 1);
+
+        int key = x.keys.get(keyIndex);
+        x.keys.remove(keyIndex);
+        y.keys.add(key);
+
+        y.keys.addAll(z.keys);
+        y.nodes.addAll(z.nodes);
+        x.nodes.remove(z);
+
+        if (x.keys.isEmpty()) {
+            x.nodes.clear();
+            root = y;
+        }
+
+        return y;
     }
 
     private int getLargestKey(Node node) {
