@@ -1,11 +1,13 @@
 package graph;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 public class AdjacencyListGraph {
     // 행의 인덱스는 정점을 표현하고, 노드는 간선을 여부를 표현한다
     final LinkedList<Edge>[] graph;
+    final int[] visit;
 
     @SuppressWarnings("unchecked")
     public AdjacencyListGraph(int size) {
@@ -14,6 +16,7 @@ public class AdjacencyListGraph {
         for (int i = 0; i < graph.length; i++) {
             graph[i] = new LinkedList<>();
         }
+        visit = new int[size];
     }
 
     public void clear() {
@@ -54,6 +57,62 @@ public class AdjacencyListGraph {
     public void addDirectEdge(int u, int v, int w) {
         // TODO : 방향 간선
         addEdge(u, v, w);
+    }
+
+    public void dfsTraversal(int start) {
+        System.out.println("---List dfs---");
+        dfs(start);
+        System.out.println("--------------");
+
+    }
+
+    private void dfs(int u) {
+
+        if (1 == visit[u]) {
+            return;
+        }
+        visit(u);
+        for (Edge edge : graph[u]) {
+            if (0 == visit[edge.v]) {
+                dfs(u);
+            }
+        }
+
+    }
+
+    public void bfsTraversal(int start) {
+        System.out.println("---List bfs---");
+        bfs(start);
+        System.out.println("--------------");
+    }
+
+    private void bfs(int start) {
+
+        LinkedList<Integer> queue = new LinkedList<>();
+        queue.add(start);
+
+        while (!queue.isEmpty()) {
+
+            int u = queue.poll();
+            visit(u);
+            for (Edge edge : graph[u]) {
+
+                if (0 == visit[edge.v]) {
+                    queue.add(edge.v);
+                    visit[edge.v] = 1;
+                }
+
+            }
+
+        }
+
+    }
+
+    private void visit(int u) {
+
+        System.out.println("visit:" + u);
+        visit[u] = 1;
+
     }
 
     public void printEdge() {
