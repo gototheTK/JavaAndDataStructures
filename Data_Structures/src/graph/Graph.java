@@ -37,13 +37,19 @@ public class Graph {
     private final int[] disjointSet; // 서로소 집합
     private final boolean[] visit;
 
+    @SuppressWarnings("unchecked")
     public Graph() {
         priorityQueue = new PriorityQueue<>();
         disjointSet = new int[6];
         visit = new boolean[6];
+        graph = new LinkedList[6];
 
         for (int i = 0; i < disjointSet.length; i++) {
             disjointSet[i] = i;
+        }
+
+        for (int i = 0; i < graph.length; i++) {
+            graph[i] = new LinkedList<>();
         }
 
     }
@@ -52,6 +58,8 @@ public class Graph {
         // TODO : 간선을 추가할 때 부터 가중치 순으로 정렬하기
         // 우선순위 큐를 사용한다.
         priorityQueue.add(new Edge(u, v, w));
+        graph[u].add(new Edge(u, v, w));
+        graph[v].add(new Edge(v, u, w));
     }
 
     private int find(int x) {
@@ -146,13 +154,15 @@ public class Graph {
     }
 
     public void test() {
+
         undirectedEdge(1, 0, 3);
         undirectedEdge(3, 0, 2);
         undirectedEdge(1, 2, 1);
         undirectedEdge(2, 3, 3);
         undirectedEdge(4, 3, 2);
         undirectedEdge(2, 5, 3);
-        System.out.println(getMST());
+
+        System.out.println(getPrimMST());
     }
 
 }
