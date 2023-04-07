@@ -2,6 +2,7 @@ package graph;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Set;
 
@@ -31,12 +32,15 @@ class Edge implements Comparable<Edge> {
 
 public class Graph {
 
+    private LinkedList<Edge>[] graph;
     private final PriorityQueue<Edge> priorityQueue; // 우선순위 큐(MinHeap)
     private final int[] disjointSet; // 서로소 집합
+    private final boolean[] visit;
 
     public Graph() {
         priorityQueue = new PriorityQueue<>();
         disjointSet = new int[6];
+        visit = new boolean[6];
 
         for (int i = 0; i < disjointSet.length; i++) {
             disjointSet[i] = i;
@@ -81,6 +85,64 @@ public class Graph {
             }
         }
         return safeEdgeSet;
+    }
+
+    /**
+     * PRIM_MST() {
+     * vertex = 방문할 정점
+     * priorityQueue;
+     * while 방문하지 않은 정점이 존재한다
+     * visit(vertex)
+     * for 정점에 부속된 간선을 priorityQueue에 저장한다
+     * if 간선의 정점을 방문하지 않았다
+     * 간선을 priorityQueue에 저장한다
+     * 
+     * while priorityQueue에 간선이 존재한다
+     * edge = 큐에서 꺼낸 간선
+     * if 간선의 정점을 방문하지 않았다
+     * vertex = 간선의 도착지 정점
+     * 해당 간선을 안전 간선으로 추가한다
+     * break;
+     * }
+     * 
+     * @return
+     */
+
+    public Set<Edge> getPrimMST() {
+
+        Set<Edge> safEdgeSet = new HashSet<>();
+
+        int vertex = 0;
+        PriorityQueue<Edge> edgeQueue = new PriorityQueue<>();
+
+        while (!visit[vertex]) {
+
+            visit[vertex] = true;
+
+            for (Edge edge : graph[vertex]) {
+
+                if (!visit[edge.v]) {
+                    edgeQueue.add(edge);
+                }
+
+            }
+
+            while (!edgeQueue.isEmpty()) {
+
+                Edge edge = edgeQueue.poll();
+
+                if (!visit[edge.v]) {
+                    vertex = edge.v;
+                    safEdgeSet.add(edge);
+                    break;
+                }
+
+            }
+
+        }
+
+        return safEdgeSet;
+
     }
 
     public void test() {
