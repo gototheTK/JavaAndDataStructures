@@ -39,7 +39,7 @@ public class KrukalGraph {
 
     }
 
-    private void undirectedEdge(int u, int v, int w) {
+    public void undirectedEdge(int u, int v, int w) {
         priorityQueue.add(new Edge(u, v, w));
     }
 
@@ -47,18 +47,16 @@ public class KrukalGraph {
 
         if (disjointSet[x] == x) {
             return x;
-        } else {
-
-            return disjointSet[x] = find(disjointSet[x]);
-
         }
+        return disjointSet[x] = find(x);
     }
 
-    public void union(int u, int v) {
+    private void union(int u, int v) {
+
         u = find(u);
         v = find(v);
 
-        if (u < v) {
+        if (u > v) {
             disjointSet[v] = u;
         } else {
             disjointSet[u] = v;
@@ -67,19 +65,23 @@ public class KrukalGraph {
     }
 
     public Set<Edge> getMST() {
-        Set<Edge> safeEdgeSet = new HashSet<>();
+        Set<Edge> safeSet = new HashSet<>();
 
         while (!priorityQueue.isEmpty()) {
 
             Edge edge = priorityQueue.poll();
+
             if (find(edge.u) != find(edge.v)) {
 
                 union(edge.u, edge.v);
-                safeEdgeSet.add(edge);
+                safeSet.add(edge);
+
             }
+
         }
 
-        return safeEdgeSet;
+        return safeSet;
+
     }
 
 }
