@@ -55,7 +55,7 @@ public class RedBlackTree {
         } else if (isRED(g.right) && isRED(g.right.right) && isBLACK(g.left)) {
             swapColor(g, g.right);
             RR_rotate(g);
-        } else if (isRED(g.right) && (isRED(g.right.left) || isRED(g.right.right))) {
+        } else if (isRED(g.right) && (isRED(g.right.right) || isRED(g.right.left))) {
             g.color = RED;
             g.right.color = BLACK;
             g.left.color = BLACK;
