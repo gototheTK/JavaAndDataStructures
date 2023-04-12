@@ -3,6 +3,43 @@ import java.util.*;
 
 public class Solution {
 
+    /*
+     * Complete the 'gradingStudents' function below.
+     *
+     * The function is expected to return an INTEGER_ARRAY.
+     * The function accepts INTEGER_ARRAY grades as parameter.
+     */
+
+    public static List<Integer> gradingStudents(List<Integer> grades) {
+        // Write your code here
+        // First, Making a loop.
+        // Second, Fetching the grades.
+        // Third, Rounding a grade if the grade is less than 5 Or Passing.
+        // Fourth, Returning to First until the rest of the grades for process.
+        // Fifth, Returning the grades.
+
+        /*
+         * num % 5 < 3
+         * 5 - (num % 5)
+         */
+
+        List<Integer> finalGrades = new ArrayList<Integer>();
+
+        for (Integer grade : grades) {
+
+            if (grade.intValue() > 37 && grade.intValue() % 5 < 3) {
+                grade = new Integer(grade += 5 - (grade % 5));
+            }
+            ;
+
+            finalGrades.add(grade);
+
+        }
+
+        return finalGrades;
+
+    }
+
     public static long arrayManipulation(int n, List<List<Integer>> queries) {
         // Write your code here
 
