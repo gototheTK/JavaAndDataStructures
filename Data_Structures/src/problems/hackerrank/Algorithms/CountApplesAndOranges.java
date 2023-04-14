@@ -1,4 +1,3 @@
-package problems.hackerrank.Algorithms;
 
 import java.io.*;
 import java.math.*;
@@ -57,6 +56,8 @@ class Result {
                 orangesWithinSam++;
             }
         }
+
+        TreeMap<Integer, Integer> maps = new TreeMap<>();
 
         System.out.println(orangesWithinSam);
 

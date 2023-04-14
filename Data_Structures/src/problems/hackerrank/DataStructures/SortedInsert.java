@@ -1,4 +1,3 @@
-package problems.hackerrank;
 
 import java.io.*;
 import java.math.*;

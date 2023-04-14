@@ -1,4 +1,3 @@
-package problems.hackerrank;
 
 import java.io.*;
 import java.math.*;
@@ -8,7 +7,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.*;
 
-public class MergeTwoSortedLinkedLists {
+public class RemoveDuplicates {
 
     static class SinglyLinkedListNode {
         public int data;
@@ -55,7 +54,12 @@ public class MergeTwoSortedLinkedLists {
         }
     }
 
-    // Complete the mergeLists function below.
+    /*
+     * Complete the 'removeDuplicates' function below.
+     *
+     * The function is expected to return an INTEGER_SINGLY_LINKED_LIST.
+     * The function accepts INTEGER_SINGLY_LINKED_LIST llist as parameter.
+     */
 
     /*
      * For your reference:
@@ -66,39 +70,25 @@ public class MergeTwoSortedLinkedLists {
      * }
      *
      */
-    static SinglyLinkedListNode mergeLists(SinglyLinkedListNode head1, SinglyLinkedListNode head2) {
 
-        SinglyLinkedListNode node1 = head1;
-        SinglyLinkedListNode node2 = head2;
-        SinglyLinkedListNode list;
-        SinglyLinkedListNode temp;
+    public static SinglyLinkedListNode removeDuplicates(SinglyLinkedListNode llist) {
+        // Write your code here
 
-        if (node1.data < node2.data) {
-            list = node1;
-            node1 = node1.next;
-        } else {
-            list = node2;
-            node2 = node2.next;
-        }
+        SinglyLinkedListNode head = new SinglyLinkedListNode(llist.data);
+        SinglyLinkedListNode next = llist;
+        SinglyLinkedListNode list = head;
 
-        temp = list;
+        while (null != next) {
 
-        while (null != node1 && null != node2) {
-
-            if (node1.data < node2.data) {
-                temp.next = node1;
-                node1 = node1.next;
-            } else {
-                temp.next = node2;
-                node2 = node2.next;
+            if (next.data != list.data) {
+                list.next = new SinglyLinkedListNode(next.data);
+                list = list.next;
             }
-            temp = temp.next;
+            next = next.next;
 
         }
 
-        temp.next = null == node1 ? node2 : node1;
-
-        return list;
+        return head;
 
     }
 
@@ -107,37 +97,25 @@ public class MergeTwoSortedLinkedLists {
     public static void main(String[] args) throws IOException {
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-        int tests = scanner.nextInt();
+        int t = scanner.nextInt();
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-        for (int testsItr = 0; testsItr < tests; testsItr++) {
-            SinglyLinkedList llist1 = new SinglyLinkedList();
+        for (int tItr = 0; tItr < t; tItr++) {
+            SinglyLinkedList llist = new SinglyLinkedList();
 
-            int llist1Count = scanner.nextInt();
+            int llistCount = scanner.nextInt();
             scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-            for (int i = 0; i < llist1Count; i++) {
-                int llist1Item = scanner.nextInt();
+            for (int i = 0; i < llistCount; i++) {
+                int llistItem = scanner.nextInt();
                 scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-                llist1.insertNode(llist1Item);
+                llist.insertNode(llistItem);
             }
 
-            SinglyLinkedList llist2 = new SinglyLinkedList();
+            SinglyLinkedListNode llist1 = removeDuplicates(llist.head);
 
-            int llist2Count = scanner.nextInt();
-            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-
-            for (int i = 0; i < llist2Count; i++) {
-                int llist2Item = scanner.nextInt();
-                scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-
-                llist2.insertNode(llist2Item);
-            }
-
-            SinglyLinkedListNode llist3 = mergeLists(llist1.head, llist2.head);
-
-            printSinglyLinkedList(llist3, " ", bufferedWriter);
+            printSinglyLinkedList(llist1, " ", bufferedWriter);
             bufferedWriter.newLine();
         }
 

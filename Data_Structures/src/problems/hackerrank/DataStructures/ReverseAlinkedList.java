@@ -1,4 +1,3 @@
-package problems.hackerrank;
 
 import java.io.*;
 import java.math.*;
@@ -8,7 +7,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.*;
 
-public class RemoveDuplicates {
+public class ReverseAlinkedList {
 
     static class SinglyLinkedListNode {
         public int data;
@@ -56,7 +55,7 @@ public class RemoveDuplicates {
     }
 
     /*
-     * Complete the 'removeDuplicates' function below.
+     * Complete the 'reverse' function below.
      *
      * The function is expected to return an INTEGER_SINGLY_LINKED_LIST.
      * The function accepts INTEGER_SINGLY_LINKED_LIST llist as parameter.
@@ -72,25 +71,22 @@ public class RemoveDuplicates {
      *
      */
 
-    public static SinglyLinkedListNode removeDuplicates(SinglyLinkedListNode llist) {
+    public static SinglyLinkedListNode reverse(SinglyLinkedListNode llist) {
+        // Write your code here
         // Write your code here
 
-        SinglyLinkedListNode head = new SinglyLinkedListNode(llist.data);
         SinglyLinkedListNode next = llist;
-        SinglyLinkedListNode list = head;
+        SinglyLinkedListNode head = null;
+        SinglyLinkedListNode prev = llist;
 
-        while (null != next) {
-
-            if (next.data != list.data) {
-                list.next = new SinglyLinkedListNode(next.data);
-                list = list.next;
-            }
+        while (null != prev) {
             next = next.next;
-
+            prev.next = head;
+            head = prev;
+            prev = next;
         }
 
         return head;
-
     }
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -98,10 +94,10 @@ public class RemoveDuplicates {
     public static void main(String[] args) throws IOException {
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-        int t = scanner.nextInt();
+        int tests = scanner.nextInt();
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-        for (int tItr = 0; tItr < t; tItr++) {
+        for (int testsItr = 0; testsItr < tests; testsItr++) {
             SinglyLinkedList llist = new SinglyLinkedList();
 
             int llistCount = scanner.nextInt();
@@ -114,7 +110,7 @@ public class RemoveDuplicates {
                 llist.insertNode(llistItem);
             }
 
-            SinglyLinkedListNode llist1 = removeDuplicates(llist.head);
+            SinglyLinkedListNode llist1 = reverse(llist.head);
 
             printSinglyLinkedList(llist1, " ", bufferedWriter);
             bufferedWriter.newLine();

@@ -1,4 +1,3 @@
-package problems.hackerrank;
 
 import java.io.*;
 import java.math.*;
@@ -8,7 +7,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.*;
 
-public class ReverseAlinkedList {
+public class MergeTwoSortedLinkedLists {
 
     static class SinglyLinkedListNode {
         public int data;
@@ -55,12 +54,7 @@ public class ReverseAlinkedList {
         }
     }
 
-    /*
-     * Complete the 'reverse' function below.
-     *
-     * The function is expected to return an INTEGER_SINGLY_LINKED_LIST.
-     * The function accepts INTEGER_SINGLY_LINKED_LIST llist as parameter.
-     */
+    // Complete the mergeLists function below.
 
     /*
      * For your reference:
@@ -71,23 +65,40 @@ public class ReverseAlinkedList {
      * }
      *
      */
+    static SinglyLinkedListNode mergeLists(SinglyLinkedListNode head1, SinglyLinkedListNode head2) {
 
-    public static SinglyLinkedListNode reverse(SinglyLinkedListNode llist) {
-        // Write your code here
-        // Write your code here
+        SinglyLinkedListNode node1 = head1;
+        SinglyLinkedListNode node2 = head2;
+        SinglyLinkedListNode list;
+        SinglyLinkedListNode temp;
 
-        SinglyLinkedListNode next = llist;
-        SinglyLinkedListNode head = null;
-        SinglyLinkedListNode prev = llist;
-
-        while (null != prev) {
-            next = next.next;
-            prev.next = head;
-            head = prev;
-            prev = next;
+        if (node1.data < node2.data) {
+            list = node1;
+            node1 = node1.next;
+        } else {
+            list = node2;
+            node2 = node2.next;
         }
 
-        return head;
+        temp = list;
+
+        while (null != node1 && null != node2) {
+
+            if (node1.data < node2.data) {
+                temp.next = node1;
+                node1 = node1.next;
+            } else {
+                temp.next = node2;
+                node2 = node2.next;
+            }
+            temp = temp.next;
+
+        }
+
+        temp.next = null == node1 ? node2 : node1;
+
+        return list;
+
     }
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -99,21 +110,33 @@ public class ReverseAlinkedList {
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
         for (int testsItr = 0; testsItr < tests; testsItr++) {
-            SinglyLinkedList llist = new SinglyLinkedList();
+            SinglyLinkedList llist1 = new SinglyLinkedList();
 
-            int llistCount = scanner.nextInt();
+            int llist1Count = scanner.nextInt();
             scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-            for (int i = 0; i < llistCount; i++) {
-                int llistItem = scanner.nextInt();
+            for (int i = 0; i < llist1Count; i++) {
+                int llist1Item = scanner.nextInt();
                 scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-                llist.insertNode(llistItem);
+                llist1.insertNode(llist1Item);
             }
 
-            SinglyLinkedListNode llist1 = reverse(llist.head);
+            SinglyLinkedList llist2 = new SinglyLinkedList();
 
-            printSinglyLinkedList(llist1, " ", bufferedWriter);
+            int llist2Count = scanner.nextInt();
+            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+            for (int i = 0; i < llist2Count; i++) {
+                int llist2Item = scanner.nextInt();
+                scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+                llist2.insertNode(llist2Item);
+            }
+
+            SinglyLinkedListNode llist3 = mergeLists(llist1.head, llist2.head);
+
+            printSinglyLinkedList(llist3, " ", bufferedWriter);
             bufferedWriter.newLine();
         }
 
