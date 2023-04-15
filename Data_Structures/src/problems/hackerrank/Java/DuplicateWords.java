@@ -43,7 +43,7 @@ public class DuplicateWords {
 
             // Check for subsequences of input that match the compiled pattern
             while (m.find()) {
-                input = input.replaceAll(p.pattern()/* The regex to replace */, "$1"/* The replacement. */);
+                input = input.replaceAll(m.group()/* The regex to replace */, m.group(1)/* The replacement. */);
             }
 
             // Prints the modified sentence.
