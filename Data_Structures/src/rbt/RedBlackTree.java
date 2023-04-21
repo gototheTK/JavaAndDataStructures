@@ -239,6 +239,8 @@ public class RedBlackTree {
 
     private void printHelper(Node root, String indent, boolean last) {
 
+        String a = new Object();
+
         if (root != null) {
             System.out.print(indent);
             if (last) {
