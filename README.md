@@ -1,26 +1,26 @@
 # Java
 
-## ½º·¹µå µ¿±âÈ­ ÇÏ±â
+## ìŠ¤ë ˆë“œ ë™ê¸°í™” í•˜ê¸°
 
-- synchronized method : ¸Þ¼­µå¸¦ µ¿±âÈ­
+- synchronized method : ë©”ì„œë“œë¥¼ ë™ê¸°í™”
 
-- synchronized statement : Áß°ýÈ£·Î ½×¿©Áø ±¸¹®À» µ¿±âÈ­. Object key¸¦ ÁöÁ¤ÇÏ¿©¾ßÇÑ´Ù.
+- synchronized statement : ì¤‘ê´„í˜¸ë¡œ ìŒ“ì—¬ì§„ êµ¬ë¬¸ì„ ë™ê¸°í™”. Object keyë¥¼ ì§€ì •í•˜ì—¬ì•¼í•œë‹¤.
 
 ## Object key
 
     1. Object key
     2. Mornitor
-    3. Lock-Free µ¿±âÈ­ ±â¹ý
-    4. ThreadÀÇ Life Cycle
-    5. ¸¶Ä¡¸ç
+    3. Lock-Free ë™ê¸°í™” ê¸°ë²•
+    4. Threadì˜ Life Cycle
+    5. ë§ˆì¹˜ë©°
 
-Mornitor´Â ÀÚ¹Ù¿¡¼­ »ç¿ëÇÏ´Â ±âº»ÀûÀÎ µ¿±âÈ­ ¹æ½ÄÀÔ´Ï´Ù. Mornitor ¹æ½ÄÀº Key¸¦ ÀÌ¿ëÇÏ¿© µ¿±âÈ­µÈ ÀÓ°è±¸¿ª¿¡ µé¾î°¥ ¼ö ÀÖ°í µ¿±âÈ­µÈ ÀÓ°è±¸¿ª¿¡´Â Key¸¦ °¡Áø Thread¸¸ Á¢±Ù°¡´ÉÇÕ´Ï´Ù.
+MornitorëŠ” ìžë°”ì—ì„œ ì‚¬ìš©í•˜ëŠ” ê¸°ë³¸ì ì¸ ë™ê¸°í™” ë°©ì‹ìž…ë‹ˆë‹¤. Mornitor ë°©ì‹ì€ Keyë¥¼ ì´ìš©í•˜ì—¬ ë™ê¸°í™”ëœ ìž„ê³„êµ¬ì—­ì— ë“¤ì–´ê°ˆ ìˆ˜ ìžˆê³  ë™ê¸°í™”ëœ ìž„ê³„êµ¬ì—­ì—ëŠ” Keyë¥¼ ê°€ì§„ Threadë§Œ ì ‘ê·¼ê°€ëŠ¥í•©ë‹ˆë‹¤.
 
-MornitorÀÇ ±âº» ±¸¼º ¿ä¼Ò´Â Entry-Set°ú Key Owner°¡ Á¸ÀçÇÏ¸ç, Wait-SetÀÌ¶ó´Â ±¸¿ªÀÌ ÀÖ½À´Ï´Ù.
+Mornitorì˜ ê¸°ë³¸ êµ¬ì„± ìš”ì†ŒëŠ” Entry-Setê³¼ Key Ownerê°€ ì¡´ìž¬í•˜ë©°, Wait-Setì´ë¼ëŠ” êµ¬ì—­ì´ ìžˆìŠµë‹ˆë‹¤.
 
 Key Section
 
-°ø½ÄÀûÀÎ ¸íÄªÀº ¾Æ´ÏÁö¸¸, ÀÌÇØ¸¦ ½±µµ·Ï µ½±â À§ÇØ Key Section(Å° ±¸¿ª) ÀÌ¶ó°í ¸í¸íÇß½À´Ï´Ù. Key Section¿¡´Â Entry Set°ú Key Owner, Wait-Set ±¸¿ªÀÌ Á¸ÀçÇÕ´Ï´Ù. Key SectionÀº Object Key¿Í ¿¬°üÀÌ ÀÖÀ¸¸ç Object Key´ç Key SectionÀÌ¶ó°í º¼ ¼ö ÀÖ½À´Ï´Ù. ¿¹½Ã·Î µÎ °³ÀÇ Object Key°¡ Á¸ÀçÇÑ´Ù°í °¡Á¤ÇÕ´Ï´Ù.
+ê³µì‹ì ì¸ ëª…ì¹­ì€ ì•„ë‹ˆì§€ë§Œ, ì´í•´ë¥¼ ì‰½ë„ë¡ ë•ê¸° ìœ„í•´ Key Section(í‚¤ êµ¬ì—­) ì´ë¼ê³  ëª…ëª…í–ˆìŠµë‹ˆë‹¤. Key Sectionì—ëŠ” Entry Setê³¼ Key Owner, Wait-Set êµ¬ì—­ì´ ì¡´ìž¬í•©ë‹ˆë‹¤. Key Sectionì€ Object Keyì™€ ì—°ê´€ì´ ìžˆìœ¼ë©° Object Keyë‹¹ Key Sectionì´ë¼ê³  ë³¼ ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ì˜ˆì‹œë¡œ ë‘ ê°œì˜ Object Keyê°€ ì¡´ìž¬í•œë‹¤ê³  ê°€ì •í•©ë‹ˆë‹¤.
 
 ```
 AKey keyA = new AKey();
