@@ -16,8 +16,7 @@ public class Main {
         threadB.join();
 
         System.out.println(sink.getWashDishes());
-        
-    }
 
+    }
 
 }
