@@ -1,14 +1,8 @@
 
 class Node {
-
-    Node parent, left, right;
     int key;
+    Node left, right, parent;
     int color = 1;
-
-    public Node(int key) {
-        this.key = key;
-    }
-
 }
 
 public class RedBlackTree1 {
