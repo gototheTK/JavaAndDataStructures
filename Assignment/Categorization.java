@@ -2,231 +2,157 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
-
-import org.omg.CORBA.UNKNOWN;
+import java.util.TreeMap;
 
 /**
  * Categories
  */
 
-enum Type {
-
-    MAN(1, "남자"),
-    WOMAN(2, "여자"),
-    ///
-    EXO(3, "엑소"),
-    BTS(4, "방탄소년단"),
-    BLACKPINK(5, "블랙핑크"),
-    ///
-    NOTICE(6, "공지사항"),
-    UNKNOWN(7, "익명게시판");
-
-    Integer id;
-    String name;
-
-    Type(Integer id, String name) {
-
-        this.id = id;
-        this.name = name;
-    }
-
-}
-
-class Branch implements Comparable<Branch> {
-    Integer parent_idx;
-    Integer child_id;
-
-    @Override
-    public int compareTo(Branch o) {
-        // TODO Auto-generated method stub
-
-        if (this.parent_idx == o.parent_idx && this.child_id == o.child_id) {
-            return 0;
-        } else if (this.parent_idx > o.parent_idx || this.parent_idx == o.parent_idx && this.child_id > o.child_id) {
-            return 1;
-        }
-
-        return -1;
-
-    }
-}
-
-class Board {
-    Branch branch;
-
-    public Board(Branch branch) {
-        this.branch = branch;
-    }
-}
-
 public class Categorization {
 
-    private Integer size;
-    private Integer sequence = 0;
-    private BranchCategory root;
-    private LeafCategory firstLeaf;
+    class Category {
 
-    public Categorization(Integer size) {
-        this.size = size;
-    }
+        List<String> parent_idx;
+        List<String> child_id;
+        Category subcategory;
 
-    private LeafCategory findLeafNode(Branch branch) {
-
-        return findLeafNode(this.root, branch);
+        public Category() {
+            this.parent_idx = new ArrayList<>(100);
+            this.child_id = new ArrayList<>(100);
+        }
 
     }
 
-    private LeafCategory findLeafNode(BranchCategory branchCategory, Branch branch) {
+    Category root;
 
-        List<Branch> list = branchCategory.branches;
-        Integer index = 0;
+    private final String unknown = "익명게시판";
+    private final String notice = "공지사항";
+    private Integer unknownNumber;
 
-        for (Branch temp : list) {
-            if (0 > branch.compareTo(temp)) {
+    public Categorization() {
+        this.root = new Category();
+    }
+
+    public void add(String parent) {
+
+        root.parent_idx.add(parent);
+        root.child_id.add(parent);
+
+    }
+
+    public void add(String parent, String child) {
+
+        Category pointer = root;
+        Integer parentIndex = -1;
+
+        while (null != pointer) {
+
+            parentIndex = pointer.child_id.indexOf(parent);
+            if (-1 < parentIndex) {
                 break;
             }
-            index++;
+            pointer = pointer.subcategory;
         }
 
-        Category child = branchCategory.child.get(index);
-
-        if (child instanceof LeafCategory) {
-            return (LeafCategory) child;
+        if (null == pointer || 0 > parentIndex) {
+            return;
+        } else if (null == pointer.subcategory) {
+            pointer.subcategory = new Category();
         }
 
-        return findLeafNode((BranchCategory) child, branch);
+        Integer lastIndex = pointer.subcategory.parent_idx.lastIndexOf(parent);
 
-    }
-
-    public void insert(Branch branch) {
-
-        if (isEmpty()) {
-            this.firstLeaf = new LeafCategory(branch);
+        if (lastIndex > -1) {
+            pointer.subcategory.parent_idx.add(lastIndex + 1, parent);
+            pointer.subcategory.child_id.add(lastIndex + 1, child);
         } else {
-            LeafCategory leaf = (null == this.root) ? this.firstLeaf : findLeafNode(branch);
+            pointer.subcategory.parent_idx.add(parent);
+            pointer.subcategory.child_id.add(child);
+        }
 
-            leaf.insert(new Board(branch));
+    }
 
-            if (null == leaf.parent) {
+    public Category search(String parent) {
+        Category subcategory = new Category();
+        Category pointer = root;
+        Category subPoint = subcategory;
+
+        LinkedList<String> queue = new LinkedList<>();
+        String name;
+        Integer fromIndex = -1;
+        Integer toIndex = -1;
+
+        while (null != pointer) {
+
+            if (-1 < pointer.child_id.indexOf(parent)) {
+                subPoint.parent_idx.add(parent);
+                subPoint.child_id.add(parent);
+                subPoint.subcategory = new Category();
+                subPoint = subPoint.subcategory;
+                break;
+            }
+            pointer = pointer.subcategory;
+
+        }
+
+        pointer = pointer.subcategory;
+
+        queue.add(parent);
+
+        while (null != pointer) {
+
+            name = queue.poll();
+
+            fromIndex = pointer.parent_idx.indexOf(name);
+            toIndex = pointer.parent_idx.lastIndexOf(name);
+
+            if (-1 < fromIndex) {
+                subPoint.parent_idx.addAll(pointer.parent_idx.subList(fromIndex, toIndex + 1));
+                subPoint.child_id.addAll(pointer.child_id.subList(fromIndex, toIndex + 1));
+
+            }
+
+            if (queue.isEmpty()) {
+
+                for (String subName : subPoint.child_id) {
+                    queue.add(subName);
+                }
+
+                pointer = pointer.subcategory;
+                subPoint.subcategory = new Category();
+                subPoint = subPoint.subcategory;
 
             }
 
         }
 
-    }
-
-    private Boolean isEmpty() {
-        return null == firstLeaf;
-    }
-
-    class Category {
-        BranchCategory parent;
-    }
-
-    class BranchCategory extends Category {
-        Integer maxSize;
-        Integer minSize;
-        BranchCategory leftSibling;
-        BranchCategory rightSibling;
-        List<Branch> branches;
-        List<Category> child;
-
-        public BranchCategory(List<Branch> branches, Boolean isLeaf) {
-            this.maxSize = size * 2;
-            this.minSize = size;
-            this.branches = branches;
-            this.child = new ArrayList<>();
-        }
-
-        public BranchCategory(Integer size, List<Branch> branches, List<Category> child, Boolean isLeaf) {
-            this.maxSize = size * 2;
-            this.minSize = size;
-            this.branches = branches;
-            this.child = child;
-        }
-
-        private Category findChildCategory(Category category) {
-            for (Category child : this.child) {
-                return child;
-            }
+        if (1 > subcategory.child_id.size()) {
+            System.out.println("카테고리가 존재하지 않습니다.");
             return null;
         }
 
-        private void insertCategory(Category category) {
-            this.child.add(category);
-        }
-
-        private void prependCategory(Category category) {
-            this.child.add(0, category);
-        }
-
-        private void removeCategory(Category category) {
-            this.child.remove(category);
-        }
-
-        private Boolean isDeficient() {
-            return this.child.size() < this.minSize;
-        }
-
-        private Boolean isLendable() {
-            return this.child.size() > minSize;
-        }
-
-        private Boolean isMergeable() {
-            return this.child.size() == this.minSize;
-        }
-
-        private Boolean isOverfull() {
-            return this.child.size() > this.maxSize;
-        }
+        return subcategory;
 
     }
 
-    class LeafCategory extends Category {
+    public void showAll() {
+        this.show(root);
+    }
 
-        Integer number;
-        Integer maxSize;
-        Integer minSize;
-        LeafCategory left;
-        LeafCategory right;
-        List<Board> boards;
+    public void show(Category category) {
 
-        public void delete(Branch branch) {
-        }
+        Category poiner = category;
 
-        public void insert(Board board) {
-            boards.add(board);
-        }
+        List<String> lines = new ArrayList<>(1000);
 
-        private Boolean isDeficient() {
-            return this.boards.size() < this.minSize;
-        }
+        while (null != poiner) {
 
-        private Boolean isLendable() {
-            return this.boards.size() > minSize;
-        }
+            System.out.println(poiner.child_id.toString());
 
-        private Boolean isfull() {
-            return this.boards.size() == this.maxSize;
-        }
+            poiner = poiner.subcategory;
 
-        private Boolean isMergeable() {
-            return this.boards.size() == this.minSize;
-        }
-
-        public LeafCategory(Branch branch) {
-            this.maxSize = (size * 2) - 1;
-            this.minSize = size - 1;
-            this.boards = new ArrayList<>(100);
-            this.boards.add(new Board(branch));
-        }
-
-        public LeafCategory(List<Board> boards, BranchCategory parent) {
-            this.maxSize = (size * 2) - 1;
-            this.minSize = size - 1;
-            this.boards = boards;
-            this.parent = parent;
         }
 
     }
@@ -234,6 +160,19 @@ public class Categorization {
     /** 실행 */
 
     public static void main(String[] args) {
+
+        Categorization test = new Categorization();
+
+        test.add("남자");
+        test.add("여자");
+        test.add("남자", "엑소");
+        test.add("엑소", "공지사항");
+        test.add("남자", "방탄소년단");
+        test.add("방탄소년단", "공지사항");
+
+        Category range = test.search("엑소");
+        test.show(range);
+        test.showAll();
 
     }
 
