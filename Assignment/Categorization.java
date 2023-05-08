@@ -146,6 +146,8 @@ public class Categorization {
 
     public String toJson(Category category) {
 
+        System.out.println("--------------------");
+
         Category pointer = category;
         Map<String, List<String>> map = new HashMap<>(1000);
         Integer height = 1;
