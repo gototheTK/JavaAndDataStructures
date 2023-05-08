@@ -381,13 +381,25 @@ public class CategorizationBPlusTree {
 
     }
 
+    public void search() {
+
+        LeafCategory leaf = firstLeaf;
+
+        while (null != leaf) {
+
+            System.out.println();
+
+        }
+
+    }
+
     /** 실행 */
 
     public static void main(String[] args) {
 
         CategorizationBPlusTree test = new CategorizationBPlusTree(10);
 
-        test.insert(new Branch(0, 0));
+        test.insert(new Branch(1, 1));
 
     }
 

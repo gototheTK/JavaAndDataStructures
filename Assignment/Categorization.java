@@ -2,8 +2,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -137,23 +139,68 @@ public class Categorization {
 
     }
 
-    public void showAll() {
-        this.show(root);
+    public String allToJson() {
+
+        return this.toJson(root);
     }
 
-    public void show(Category category) {
+    public String toJson(Category category) {
 
-        Category poiner = category;
+        Category pointer = category;
+        Map<String, List<String>> map = new HashMap<>(1000);
+        Integer height = 1;
 
-        List<String> lines = new ArrayList<>(1000);
-
-        while (null != poiner) {
-
-            System.out.println(poiner.child_id.toString());
-
-            poiner = poiner.subcategory;
-
+        for (String name : category.child_id) {
+            map.put(name, new ArrayList<>(1000));
+            map.get(name).add(name);
         }
+
+        pointer = pointer.subcategory;
+
+        while (null != pointer) {
+
+            Integer index = 0;
+            for (String parent : pointer.parent_idx) {
+
+                List<String> temp = new ArrayList<>();
+                temp.addAll(map.get(parent));
+
+                if (pointer.child_id.get(index).equals(notice) || pointer.child_id.get(index).equals(unknown)) {
+
+                    temp.add(pointer.child_id.get(index));
+                    map.put(parent, temp);
+                } else {
+                    temp.add(pointer.child_id.get(index));
+                    if (temp.contains(notice)) {
+                        temp.remove(notice);
+
+                    }
+                    if (temp.contains(unknown)) {
+                        temp.remove(unknown);
+                    }
+
+                    map.put(pointer.child_id.get(index), temp);
+                }
+
+                index++;
+
+            }
+
+            pointer = pointer.subcategory;
+            height++;
+        }
+
+        for (String temp : map.keySet()) {
+            System.out.println(temp);
+        }
+
+        System.out.println("--------------------");
+
+        for (List<String> temp : map.values()) {
+            System.out.println(temp);
+        }
+
+        return "dd";
 
     }
 
@@ -166,13 +213,22 @@ public class Categorization {
         test.add("남자");
         test.add("여자");
         test.add("남자", "엑소");
-        test.add("엑소", "공지사항");
         test.add("남자", "방탄소년단");
+        test.add("여자", "블랙핑크");
+        test.add("엑소", "공지사항");
+        test.add("엑소", "첸");
+        test.add("엑소", "백현");
+        test.add("엑소", "시우민");
         test.add("방탄소년단", "공지사항");
+        test.add("방탄소년단", "익명게시판");
+        test.add("방탄소년단", "뷔");
+        test.add("블랙핑크", "공지사항");
+        test.add("블랙핑크", "익명게시판");
+        test.add("블랙핑크", "로제");
 
         Category range = test.search("엑소");
-        test.show(range);
-        test.showAll();
+        test.allToJson();
+        test.toJson(range);
 
     }
 
