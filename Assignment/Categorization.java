@@ -192,14 +192,17 @@ public class Categorization {
             height++;
         }
 
-        for (String temp : map.keySet()) {
-            System.out.println(temp);
-        }
-
         System.out.println("--------------------");
 
+        List<String> results = new ArrayList<>(1000);
+
         for (List<String> temp : map.values()) {
-            System.out.println(temp);
+            results.add(temp.toString());
+        }
+        Collections.sort(results);
+
+        for (String line : results) {
+            System.out.println(line);
         }
 
         return "dd";
