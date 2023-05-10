@@ -1,8 +1,10 @@
 package graph;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class AdjacencyListGraph {
     // 행의 인덱스는 정점을 표현하고, 노드는 간선을 여부를 표현한다
@@ -12,6 +14,9 @@ public class AdjacencyListGraph {
     @SuppressWarnings("unchecked")
     public AdjacencyListGraph(int size) {
         graph = new LinkedList[size];
+
+        Set<Integer> sets = new HashSet<>();
+        sets.size()
 
         for (int i = 0; i < graph.length; i++) {
             graph[i] = new LinkedList<>();
@@ -74,7 +79,7 @@ public class AdjacencyListGraph {
         visit(u);
         for (Edge edge : graph[u]) {
             if (0 == visit[edge.v]) {
-                dfs(u);
+                dfs(u);0
             }
         }
 
