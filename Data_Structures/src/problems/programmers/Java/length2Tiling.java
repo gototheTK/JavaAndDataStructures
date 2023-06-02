@@ -1,14 +1,5 @@
-package problems.programmers.Sql;
 
-public class length2Tiling {
-
-    /**
-     * 
-     * 동적계획법을 이용하여 타일링문제 풀기
-     * 
-     * @param n
-     * @return theNumberOfCases
-     */
+class length2Tiling {
 
     public int solution(int n) {
 
