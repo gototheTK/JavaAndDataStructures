@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Running_Race {
+
     public String[] solution(String[] players, String[] callings) {
         String[] answer = Arrays.copyOf(players, players.length);
 
