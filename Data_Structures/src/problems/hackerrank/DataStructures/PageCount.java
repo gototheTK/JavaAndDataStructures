@@ -38,7 +38,6 @@ public class PageCount {
         int n = Integer.parseInt(bufferedReader.readLine().trim());
 
         int p = Integer.parseInt(bufferedReader.readLine().trim());
-
         int result = Result.pageCount(n, p);
 
         bufferedWriter.write(String.valueOf(result));
