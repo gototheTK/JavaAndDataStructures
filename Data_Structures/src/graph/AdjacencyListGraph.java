@@ -79,7 +79,7 @@ public class AdjacencyListGraph {
         visit(u);
         for (Edge edge : graph[u]) {
             if (0 == visit[edge.v]) {
-                dfs(u);0
+                dfs(u);
             }
         }
 
