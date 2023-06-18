@@ -77,6 +77,17 @@ public class Network {
         }
         answer = set.size();
 
+        /**
+         * 다른 사람의 풀이
+         * for(int i=0; i<n; i++){
+         * 
+         * if(find(disjoint[i],disjoint)==i){
+         * answer++;
+         * }
+         * 
+         * }
+         */
+
         return answer;
     }
 
