@@ -22,10 +22,10 @@ public class Network {
         u = find(u, disjoint);
         v = find(v, disjoint);
 
-        if (u > v) {
-            disjoint[u] = ;
-        } else {
-            disjoint[v] = u;
+        for (int i = 0; i < disjoint.length; i++) {
+            if (disjoint[i] == u || disjoint[i] == v) {
+                disjoint[i] = u > v ? v : u;
+            }
         }
 
     }
@@ -46,7 +46,7 @@ public class Network {
          **/
 
         if (disjoint[v] == v) {
-            return disjoint[v];
+            return v;
         } else {
             return disjoint[v] = find(disjoint[v], disjoint);
         }
@@ -55,7 +55,7 @@ public class Network {
 
     public int solution(int n, int[][] computers) {
         int answer = 0;
-
+        Set<Integer> set = new HashSet<>();
         int[] disjoint = new int[n];
         for (int i = 0; i < n; i++) {
             disjoint[i] = i;
@@ -71,8 +71,6 @@ public class Network {
             }
 
         }
-
-        Set<Integer> set = new HashSet<>();
 
         for (int i = 0; i < n; i++) {
             set.add(disjoint[i]);
