@@ -31,7 +31,10 @@ public class Test3 {
 
         for (Object[] record : records) {
 
-            System.out.printf("|" + "%-5s" + "|" + "%6.2f" + "|" + "%6d" + "|\n", record[0], record[1], record[2]);
+            System.out.printf(
+                    "|" + "%" + (-1 * first) + "s" + "|" + "%" + (second) + ".2f" + "|" + "%" + (third) + "d" + "|\n",
+                    record[0],
+                    record[1], record[2]);
         }
 
     }
