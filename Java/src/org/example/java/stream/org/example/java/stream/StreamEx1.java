@@ -1,4 +1,4 @@
-package org.example.java.stream;
+package org.example.java;
 
 import java.util.*;
 import java.util.stream.Stream;
