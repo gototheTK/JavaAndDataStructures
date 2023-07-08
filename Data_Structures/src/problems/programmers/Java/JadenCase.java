@@ -1,6 +1,6 @@
-package problems.programmers.java;
+package problems.programmers.Java;
 
-class Solution {
+class JadenCase {
     public String solution(String s) {
         String answer = "";
 

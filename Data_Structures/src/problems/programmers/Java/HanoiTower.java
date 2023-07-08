@@ -1,4 +1,4 @@
-package problems.programmers.java;
+package problems.programmers.Java;
 
 import java.util.*;
 

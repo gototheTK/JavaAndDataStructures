@@ -1,3 +1,5 @@
+package hashtable;
+
 import java.util.LinkedList;
 
 class Entry {

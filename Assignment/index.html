@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+
+    const table = document.createElement('table');
+    document.body.appendChild(table);
+    const thead = document.createElement('thead');
+    table.appendChild(thead);
+    const theadTr = document.createElement('tr');
+    const th1 = document.createElement('th');
+    const th2 = document.createElement('th');
+    const th3 = document.createElement('th');
+    const th4 = document.createElement('th');
+    const th5 = document.createElement('th');
+    theadTr.appendChild(th1);
+    theadTr.appendChild(th2);
+    theadTr.appendChild(th3);
+    theadTr.appendChild(th4);
+    theadTr.appendChild(th5);
+    thead.appendChild(theadTr);
+    th1.textContent="employee_id";
+    th2.textContent="department_id";
+    th3.textContent="department_name";
+    th4.textContent="employee_name";
+    th5.textContent="employee_responsibility";
+
+    const tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+
+    let tbodyTr = document.createElement('tr');
+    let td1 = document.createElement('td');
+    let td2 = document.createElement('td');
+    let td3 = document.createElement('td');
+    let td4 = document.createElement('td');
+    let td5 = document.createElement('td');
+    tbodyTr.appendChild(td1);
+    tbodyTr.appendChild(td2);
+    tbodyTr.appendChild(td3);
+    tbodyTr.appendChild(td4);
+    tbodyTr.appendChild(td5);
+    tbodyTr.className ='employees';
+    
+    td1.textContent = 1;
+    td2.textContent = '1';
+    td3.textContent = '기획부';
+    td4.textContent = '리처드 헨드릭';
+    td5.textContent = '대표이사';
+    tbody.appendChild(tbodyTr);
+
+
+    tbodyTr = document.createElement('tr');
+    td1 = document.createElement('td');
+    td2 = document.createElement('td');
+    td3 = document.createElement('td');
+    td4 = document.createElement('td');
+    td5 = document.createElement('td');
+    tbodyTr.appendChild(td1);
+    tbodyTr.appendChild(td2);
+    tbodyTr.appendChild(td3);
+    tbodyTr.appendChild(td4);
+    tbodyTr.appendChild(td5);
+    tbodyTr.className ='employees';
+    
+    td1.textContent = '2';
+    td2.textContent = '1';
+    td3.textContent = '기획부';
+    td4.textContent = '에릭 버크만';
+    td5.textContent = '부사장';
+    tbody.appendChild(tbodyTr);
+
+    let elements = document.getElementsByClassName('employees');
+    let i=1;
+    for(let elem of elements){
+        elem.id = i;
+        i++;
+    }
+    
+    for(let i=1; i<=elements.length; i++){
+        const elem = document.getElementById(i);
+        const name = elem.getElementsByTagName('td')[3];
+        name.addEventListener('mouseup', ()=>{
+            alert(elem.innerText);
+        });  
+    }
+
+
+</script>
+</html>

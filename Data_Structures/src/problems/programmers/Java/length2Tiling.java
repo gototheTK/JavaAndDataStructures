@@ -1,3 +1,4 @@
+package problems.programmers.Java;
 
 class length2Tiling {
 
