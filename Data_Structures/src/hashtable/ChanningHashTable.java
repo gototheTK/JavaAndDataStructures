@@ -2,16 +2,6 @@ package hashtable;
 
 import java.util.LinkedList;
 
-class Entry {
-    Object key;
-    Object value;
-
-    Entry(Object key, Object value) {
-        this.key = key;
-        this.value = value;
-    }
-}
-
 public class ChanningHashTable {
     // 버킷으로 할당할 수 있는 최대 크기
     private static final int MAXIMUM_CAPACITY = 1 << 30;
